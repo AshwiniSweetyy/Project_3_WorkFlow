@@ -1,0 +1,485 @@
+{
+	"info": {
+		"_postman_id": "0c8304e0-2665-4432-8a28-234e38cd9b3d",
+		"name": "WorkflowCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20415551"
+	},
+	"item": [
+		{
+			"name": "Get Details of particular page",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//validating Response status code\r",
+							"pm.test(\"Status Code is 200\",function()\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"//validating Response status code Name\r",
+							"pm.test(\"Status code name has string OK\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"//validating Response Header Content-Type is present\r",
+							"pm.test(\"Resonse Header Content-Type is present\", function()\r",
+							"{\r",
+							"    pm.response.to.have.header('Content-Type');\r",
+							"})\r",
+							"\r",
+							"//const currentDate= require('moment')\r",
+							"//pm.environment.set(\"date\",currentDate().format(\"yyyy-MM-DD\"));\r",
+							"\r",
+							"\r",
+							"// Workflow : To change the request run sequence \r",
+							"// Running Delete request after this request\r",
+							"\r",
+							"var result_1=pm.response.to.have.status(200);\r",
+							"console.log('Result 1 : '+ result_1);          // This will return [Object Object]\r",
+							"\r",
+							"var result_2=pm.response.code;\r",
+							"console.log(\"Status Code : \"+ result_2);  \r",
+							"\r",
+							"var result_3=pm.response.status;\r",
+							"console.log(\"Response Status  : \"+ result_3);\r",
+							"\r",
+							"\r",
+							"if(result_3 == \"OK\")\r",
+							"{\r",
+							"    postman.setNextRequest(\"Delete_Request\");\r",
+							"}\r",
+							"else\r",
+							"{\r",
+							"    postman.setNextRequest(null);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users?page=2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Details of Particular User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//validating Response status code\r",
+							"pm.test(\"Status code is 200\", function()\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"//validating Response status code Name\r",
+							"pm.test(\"Status code name has string OK\", function()\r",
+							"{\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"})  \r",
+							"\r",
+							"//validating Response header Content type is Present\r",
+							"pm.test(\"Response header Content-type is present\",function()\r",
+							"{\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"})\r",
+							"\r",
+							"\r",
+							"//validating Response header Content type value\r",
+							"pm.test(\"Content-Type header is application/json; charset=utf-8\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.headers.get('Content-Type')).eql('application/json; charset=utf-8');\r",
+							"    //   // or we can write as \r",
+							"    // pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+							"})"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//Setting Local variable\r",
+							"//pm.variables.set(\"UserID\", \"12\");\r",
+							"\r",
+							"//Getting Local variable\r",
+							"console.log(pm.variables.get('UserID'));\r",
+							"\r",
+							"pm.variables.get('Endpoint')\r",
+							"\r",
+							"console.log(pm.variables.get('Endpoint'));"
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Endpoint}}/api/users/2",
+					"host": [
+						"{{Endpoint}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Request_User not found",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//validating Response status code\r",
+							"pm.test(\"User details not found and recieved status code 404\", function()\r",
+							"{\r",
+							"    pm.response.to.have.status(404);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"pm.test(\"status code has text Not Found\", function()\r",
+							"{\r",
+							"    pm.response.to.have.status(\"Not Found\");\r",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/100",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Request_Updating Partiular User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//validating Response body for particular value\r",
+							"pm.test(\"Response Body is having value Sweety\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.text()).include(\"Sweety\"); //Pass any value which is present in response body instead of sweety \r",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Sweety\",\r\n    \"job\": \"N\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/3",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Workflow : To change the request run sequence \r",
+							"//Workflow : Stopping the running collection after this request\r",
+							"\r",
+							"var result_2=pm.response.code;\r",
+							"console.log(\"Status Code : \"+ result_2);  \r",
+							"\r",
+							"\r",
+							"if(result_2 == 200)\r",
+							"{\r",
+							"    postman.setNextRequest(null);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"morpheus1\",\r\n    \"job\": \"zion resident\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Deleted Successfully\", function()\r",
+							"{\r",
+							"    // pm.expect(pm.response.code).to.be.oneOf([204])\r",
+							"        pm.expect(pm.response.code).oneOf([204])\r",
+							"})\r",
+							"\r",
+							"\r",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Request_Adding new user details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//validating Response status code\r",
+							"pm.test(\"Status code 201\",function()\r",
+							"{\r",
+							"    pm.response.to.have.status(201);\r",
+							"    //Or we can write as\r",
+							"    //pm.response.to.status(201);\r",
+							"})\r",
+							"\r",
+							"//validating Response status code Name\r",
+							"pm.test(\"Status Code name has string created\", function()\r",
+							"{\r",
+							"    pm.response.to.have.status(\"Created\");\r",
+							"})\r",
+							"\r",
+							"//validating Response Header Content-Type is present\r",
+							"pm.test(\"Response header is having Content Type\",function()\r",
+							"{\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"})\r",
+							"\r",
+							"//validating Response body for particular value\r",
+							"pm.test(\"Response body is having key\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.text()).include(\"name\");\r",
+							"      // or we can write as \r",
+							"      //pm.expect(pm.response.text()).to.include(\"name\");\r",
+							"}\r",
+							")\r",
+							"\r",
+							"//validating Response time\r",
+							"pm.test(\"Response time is less than 300\", function()\r",
+							"{\r",
+							"    pm.expect(pm.response.responseTime).below(300);\r",
+							"        // or we can write as \r",
+							"        //pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"}\r",
+							")\r",
+							"\r",
+							"\r",
+							"var result= pm.response.json();\r",
+							"console.log(\"Name value from Response body is : \"+result.name);\r",
+							"\r",
+							"// Workflow : To change the request run sequence \r",
+							"// Workflow : Running Second request i.e \"Get Details of particular user\" after post request\r",
+							"\r",
+							"postman.setNextRequest(\"Get Details of Particular User\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//Setting Local variable\r",
+							"pm.variables.set(\"Myname\", \"Ashwini\");\r",
+							"\r",
+							"//Getting Local variable\r",
+							"console.log(pm.variables.get('Myname'));\r",
+							"\r",
+							"\r",
+							"//Setting Local variable\r",
+							"pm.variables.set('Myjob', 'Tester');\r",
+							"\r",
+							"//Getting Local variable\r",
+							"console.log(pm.variables.get('Myjob'))"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{Myname}}\",\r\n    \"job\": \"{{Myjob}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Endpoint",
+			"value": "",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "UserID",
+			"value": "",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}
